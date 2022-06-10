@@ -1,0 +1,40 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      RASProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+RASModel        laminar;
+
+turbulence      on;
+
+printCoeffs     on;
+
+kEpsilonSedCoeffs
+{
+SUS   1.0;
+C3ep  1.20;
+C4ep  0.00;
+KE1   0;    //density stra (Uf-Us)
+KE2   1.0; //turb modulation
+KE3   0;  //turb generation
+KE4   1.0;  //density stratification g
+LimKE4C 0.4;
+Bcoeff 1.0; //turb modulation coeff
+rhoa  2650;
+rhob  1000;
+Ctf   0.165;
+g    (0. 0. -9.81);
+}
+// ************************************************************************* //
