@@ -1,0 +1,81 @@
+# define variables by default
+variable        vel     equal   0.0     # initial velocity (m/s)
+variable        D       equal   3.4e-4  # particle diameter (m)
+variable        rho     equal   2650.0  # particle density (kg/m^3)
+variable        dt      equal   1e-6  # timestep (sec)
+
+
+# Pour granular particles into chute container, then induce flow
+log             ../DEM/log.liggghts
+thermo_log      ../DEM/post/thermo.txt
+
+atom_style	granular
+atom_modify	map array
+communicate	single vel yes
+
+boundary	p p m
+newton		off
+units		si
+processors	8 6 1
+
+# read the restart file
+#read_restart    ../DEM/liggghts.restart
+#reset_timestep  0 
+
+read_restart    ../DEM/post/restart.3000000
+reset_timestep  0
+
+neighbor	0.001 bin
+neigh_modify	delay 0
+
+# Material properties required for new pair styles
+
+fix 		m1 all property/global youngsModulus peratomtype 5.e6
+fix 		m2 all property/global poissonsRatio peratomtype 0.45
+fix 		m3 all property/global coefficientRestitution peratomtypepair 1 0.5
+fix 		m4 all property/global coefficientFriction peratomtypepair 1 0.5
+
+# pair style
+pair_style      gran model hertz tangential history #gran model walton stokes ${stokes}
+
+pair_coeff      * *
+
+# timestep, gravity
+timestep        ${dt}
+fix             gravi all gravity 9.81 vector 0.0 0.0 -1
+
+#walls
+fix		zwalls1 all wall/gran model hertz tangential history primitive type 1 zplane 0.0
+fix             zwalls2 all wall/gran model hertz tangential history primitive type 1 zplane 0.4 
+#fix             ywalls1 all wall/gran model hertz tangential history primitive type 1 yplane -0.075
+#fix             ywalls2 all wall/gran model hertz tangential history primitive type 1 yplane 0.075
+
+# change the particles density
+#set     group all density 2650
+#velocity        all set 0.0 0.0 0.0 units box
+
+# cfd coupling
+fix     cfd all couple/cfd couple_every 40 mpi
+fix     cfd2 all couple/cfd/force/implicit 
+
+# apply nve integration to all particles that are inserted as single particles
+fix     integr all nve/sphere
+
+# center of mass
+compute     centerOfMass all com
+
+# compute total dragforce
+compute     dragtotal all reduce ave f_dragforce[1] f_dragforce[2] f_dragforce[3]
+
+#screen output
+compute		rke all erotate/sphere
+thermo_style	custom step atoms ke c_rke vol
+thermo		1000
+thermo_modify	lost ignore norm no
+compute_modify	thermo_temp dynamic yes
+
+#insert the first particles so that dump is not empty
+dump      dmp all custom 50000 ../DEM/post/dump.n* id type x y z ix iy iz vx vy vz fx fy fz f_dragforce[1] f_dragforce[2] f_dragforce[3] radius 
+
+restart 50000 ../DEM/post/restart.*
+run		1
