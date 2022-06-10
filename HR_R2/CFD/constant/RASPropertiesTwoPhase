@@ -1,0 +1,42 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      RASProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+RASModel	kEpsilon;
+
+turbulence      on;
+
+printCoeffs     on;
+SUS             SUS [ 0 0 0 0 0 0 0 ] 1.; //set to 1 to include turbulent suspension term, else set to 0
+C3ep           C3ep [ 0 0 0 0 0 0 0 ] 1.2; /*set the coefficient of C3 in epsilon equation */
+C4ep           C4ep [ 0 0 0 0 0 0 0 ] 0.00;
+KE1             KE1 [ 0 0 0 0 0 0 0 ] 0;    //density stra (Uf-Us)
+KE2             KE2 [ 0 0 0 0 0 0 0 ] 1; //turb modulation
+KE3             KE3 [ 0 0 0 0 0 0 0 ] 0;  //turb generation
+KE4             KE4 [ 0 0 0 0 0 0 0 ] 1;  //density stratification g
+B               B [ 0 0 0 0 0 0 0 ] 0.22; //turb modulation coeff
+shearTensor    shearTensor [ 0 0 0 0 0 0 0 ] ( 0 0 1 0 0 0 0 0 0);
+ufr     ufr [0 1 -1 0 0 0 0 ] 0.5;
+Wset    Wset [0 1 -1 0 0 0 0 ] 0.0514;
+taveStart    taveStart [0 0 1 0 0 0 0 ] 0;
+
+// coefficients for modified k-epsilon model
+kEpsilonCoeffs
+{
+Cmu             0.09;
+}
+
+// ************************************************************************* //
