@@ -1,0 +1,108 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          GAMG;
+        tolerance       1e-10;
+        relTol          0;
+        smoother        DIC;
+        nPreSweeps      0;
+        nPostSweeps     2;
+        nFinestSweeps   2;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 4;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    
+    }
+
+    pFinal
+    {
+       $p;  
+       relTol          0;
+    }
+
+    U
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-10;
+        relTol          0;
+    }
+
+    k
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-15;
+        relTol          0;
+    }
+
+    epsilon
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-15;
+        relTol          0;
+    }
+
+    R
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-10;
+        relTol          0;
+    }
+
+    nuTilda
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    sSmoothField
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    vSmoothField
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+}
+
+PISO
+{
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 1;
+    momentumPredictor no;//yes;
+    //pRefCell        9;
+    pRefPoint        (0 0 0.4);
+    pRefValue       0;
+}
+
+
+// ************************************************************************* //
