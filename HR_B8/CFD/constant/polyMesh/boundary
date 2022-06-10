@@ -1,0 +1,155 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       polyBoundaryMesh;
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+14
+(
+    wall_bottom
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          1;
+        startFace       634;
+    }
+    wall_top
+    {
+        type            patch;
+        nFaces          1;
+        startFace       635;
+    }
+    front1
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          200;
+        startFace       636;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  back1;
+    }
+    back1
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          200;
+        startFace       836;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  front1;
+    }
+    left1
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          200;
+        startFace       1036;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  right1;
+    }
+    right1
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          200;
+        startFace       1236;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  left1;
+    }
+    front2
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          185;
+        startFace       1436;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  back2;
+    }
+    back2
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          185;
+        startFace       1621;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  front2;
+    }
+    left2
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          185;
+        startFace       1806;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  right2;
+    }
+    right2
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          185;
+        startFace       1991;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  left2;
+    }
+    front3
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          250;
+        startFace       2176;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  back3;
+    }
+    back3
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          250;
+        startFace       2426;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  front3;
+    }
+    left3
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          250;
+        startFace       2676;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  right3;
+    }
+    right3
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        nFaces          250;
+        startFace       2926;
+        matchTolerance  0.0001;
+        transform       unknown;
+        neighbourPatch  left3;
+    }
+)
+
+// ************************************************************************* //
